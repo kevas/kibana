@@ -16,6 +16,7 @@ import { getUiSettingDefaults } from './ui_setting_defaults';
 const mkdirp = Promise.promisify(mkdirpNode);
 
 module.exports = function (kibana) {
+
   const kbnBaseUrl = '/app/kibana';
   return new kibana.Plugin({
     id: 'kibana',

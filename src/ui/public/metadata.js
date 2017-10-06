@@ -19,7 +19,7 @@ function deepFreeze(object) {
 function getState() {
   const stateKey = '__KBN__';
   if (!(stateKey in window)) {
-    const state = $('kbn-initial-state').attr('data');
+    const state = $('kbn-initial-state').attr('data');  
     window[stateKey] = JSON.parse(state);
   }
   return window[stateKey];

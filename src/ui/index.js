@@ -21,6 +21,9 @@ export default async (kbnServer, server, config) => {
 
   const uiI18n = kbnServer.uiI18n = new UiI18n(config.get('i18n.defaultLocale'));
   uiI18n.addUiExportConsumer(uiExports);
+  
+  var eaConfig = config;
+  
 
   const bundlerEnv = new UiBundlerEnv(config.get('optimize.bundleDir'));
   bundlerEnv.addContext('env', config.get('env.name'));
@@ -52,6 +55,7 @@ export default async (kbnServer, server, config) => {
     path: '/app/{id}',
     method: 'GET',
     async handler(req, reply) {
+
       const id = req.params.id;
       const app = uiExports.apps.byId[id];
       if (!app) return reply(Boom.notFound('Unknown app ' + id));
@@ -70,7 +74,7 @@ export default async (kbnServer, server, config) => {
 
   async function getKibanaPayload({ app, request, includeUserProvidedConfig, injectedVarsOverrides }) {
     const uiSettings = request.getUiSettingsService();
-    const translations = await uiI18n.getTranslationsForRequest(request);
+    const translations = await uiI18n.getTranslationsForRequest(request);     
 
     return {
       app: app,
@@ -82,6 +86,9 @@ export default async (kbnServer, server, config) => {
       basePath: config.get('server.basePath'),
       serverName: config.get('server.name'),
       devMode: config.get('env.dev'),
+      monologVersionJS: config.get('monolog.versionJS'),
+      monologHostJS: config.get('monolog.hostJS'),
+      
       translations: translations,
       uiSettings: await props({
         defaults: uiSettings.getDefaults(),

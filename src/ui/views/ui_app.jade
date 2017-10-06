@@ -97,6 +97,7 @@ block content
 
   script.
     window.onload = function () {
+      
       var buildNum = #{kibanaPayload.buildNum};
       var cacheParam = buildNum ? '?v=' + buildNum : '';
       function bundleFile(filename) {

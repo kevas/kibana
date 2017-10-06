@@ -43,6 +43,11 @@ module.exports = () => Joi.object({
       })
     })
   }),
+  
+  monolog: Joi.object({
+    versionJS: Joi.number().default(1),
+    hostJS: Joi.string().default('https://monolog.eu'),
+  }),
 
   server: Joi.object({
     uuid: Joi.string().guid().default(),

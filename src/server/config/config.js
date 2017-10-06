@@ -56,7 +56,7 @@ module.exports = class Config {
     this._commit(obj);
   }
 
-  set(key, value) {
+  set(key, value) { 
     // clone and modify the config
     let config = clone(this[vals]);
     if (_.isPlainObject(key)) {
@@ -69,7 +69,7 @@ module.exports = class Config {
     this._commit(config);
   }
 
-  _commit(newVals) {
+  _commit(newVals) { 
     // resolve the current environment
     let env = newVals.env;
     delete newVals.env;
@@ -101,13 +101,13 @@ module.exports = class Config {
     const results = Joi.validate(newVals, this.getSchema(), {
       context,
       abortEarly: false
-    });
+    }); 
 
     if (results.error) {
       throw results.error;
     }
 
-    this[vals] = results.value;
+    this[vals] = results.value; 
   }
 
   get(key) {

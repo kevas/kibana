@@ -10,17 +10,17 @@ import { shortUrlAssertValid } from './short_url_assert_valid';
 import shortUrlLookupProvider from './short_url_lookup';
 import setupConnectionMixin from './setup_connection';
 import registerHapiPluginsMixin from './register_hapi_plugins';
-import xsrfMixin from './xsrf';
+import xsrfMixin from './xsrf'; 
 
 module.exports = async function (kbnServer, server, config) {
-  server = kbnServer.server = new Hapi.Server();
+  server = kbnServer.server = new Hapi.Server(); 
 
   const shortUrlLookup = shortUrlLookupProvider(server);
   await kbnServer.mixin(setupConnectionMixin);
-  await kbnServer.mixin(registerHapiPluginsMixin);
+  await kbnServer.mixin(registerHapiPluginsMixin);   
 
   // provide a simple way to expose static directories
-  server.decorate('server', 'exposeStaticDir', function (routePath, dirPath) {
+  server.decorate('server', 'exposeStaticDir', function (routePath, dirPath) {  
     this.route({
       path: routePath,
       method: 'GET',
@@ -56,11 +56,11 @@ module.exports = async function (kbnServer, server, config) {
     });
   });
 
-  server.decorate('server', 'redirectToSlash', function (route) {
+  server.decorate('server', 'redirectToSlash', function (route) {  
     this.route({
       path: route,
       method: 'GET',
-      handler: function (req, reply) {
+      handler: function (req, reply) { 
         return reply.redirect(format({
           search: req.url.search,
           pathname: req.url.pathname + '/',
@@ -96,7 +96,7 @@ module.exports = async function (kbnServer, server, config) {
   server.route({
     path: '/',
     method: 'GET',
-    handler: function (req, reply) {
+    handler: function (req, reply) { 
       return reply.view('root_redirect', {
         hashRoute: `${config.get('server.basePath')}/app/kibana`,
         defaultRoute: getDefaultRoute(kbnServer),
@@ -107,7 +107,7 @@ module.exports = async function (kbnServer, server, config) {
   server.route({
     method: 'GET',
     path: '/{p*}',
-    handler: function (req, reply) {
+    handler: function (req, reply) { 
       const path = req.path;
       if (path === '/' || path.charAt(path.length - 1) !== '/') {
         return reply(Boom.notFound());
@@ -119,12 +119,12 @@ module.exports = async function (kbnServer, server, config) {
       }))
       .permanent(true);
     }
-  });
+  }); 
 
   server.route({
     method: 'GET',
     path: '/goto/{urlId}',
-    handler: async function (request, reply) {
+    handler: async function (request, reply) {  
       try {
         const url = await shortUrlLookup.getUrl(request.params.urlId, request);
         shortUrlAssertValid(url);
